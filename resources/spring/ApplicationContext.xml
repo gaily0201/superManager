@@ -30,7 +30,8 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
 		<property name="locations">  
 			<list>  
-                 <value>/WEB-INF/classes/dbconfig.properties</value>  
+                 <value>/WEB-INF/classes/dbconfig.properties</value>
+                 <value>/WEB-INF/classes/lang/message-info*.properties</value>
             </list>  
         </property>  
 	</bean> 
@@ -131,6 +132,5 @@
 			</property>
 		</bean>
 	<!-- ================ Shiro end ================ -->
-	
-   
+      
 </beans>

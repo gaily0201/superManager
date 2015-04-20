@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%
 	String path = request.getContextPath();
 %>
@@ -47,8 +48,7 @@
 						<div class="main_input_box">
 							<span class="add-on bg_ly"><i><img height="37"
 									src="static/login/suo.png" /></i></span><input type="password"
-								name="password" id="password" placeholder="请输入密码"
-								value="" />
+								name="password" id="password" placeholder="请输入密码" value="" />
 						</div>
 					</div>
 				</div>
