@@ -24,6 +24,7 @@ import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.SmsUtil;
 import com.fh.util.Tools;
+import com.fh.util.Watermark;
 import com.fh.util.mail.SimpleMailSender;
 
 /** 
@@ -320,6 +321,9 @@ public class HeadController extends BaseController {
 		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//读取邮件配置
 		String strSMS1 = Tools.readTxtFile(Const.SMS1);			//读取短信1配置
 		String strSMS2 = Tools.readTxtFile(Const.SMS2);			//读取短信2配置
+		String strFWATERM = Tools.readTxtFile(Const.FWATERM);	//读取文字水印配置
+		String strIWATERM = Tools.readTxtFile(Const.IWATERM);	//读取图片水印配置
+		pd.put("Token", Tools.readTxtFile(Const.WEIXIN));		//读取微信配置
 		
 		if(null != strEMAIL && !"".equals(strEMAIL)){
 			String strEM[] = strEMAIL.split(",fh,");
@@ -347,6 +351,27 @@ public class HeadController extends BaseController {
 			}
 		}
 		
+		if(null != strFWATERM && !"".equals(strFWATERM)){
+			String strFW[] = strFWATERM.split(",fh,");
+			if(strFW.length == 5){
+				pd.put("isCheck1", strFW[0]);
+				pd.put("fcontent", strFW[1]);
+				pd.put("fontSize", strFW[2]);
+				pd.put("fontX", strFW[3]);
+				pd.put("fontY", strFW[4]);
+			}
+		}
+		
+		if(null != strIWATERM && !"".equals(strIWATERM)){
+			String strIW[] = strIWATERM.split(",fh,");
+			if(strIW.length == 4){
+				pd.put("isCheck2", strIW[0]);
+				pd.put("imgUrl", strIW[1]);
+				pd.put("imgX", strIW[2]);
+				pd.put("imgY", strIW[3]);
+			}
+		}
+		
 		mv.setViewName("system/head/sys_edit");
 		mv.addObject("pd", pd);
 		
@@ -354,10 +379,10 @@ public class HeadController extends BaseController {
 	}
 	
 	/**
-	 * 保存系统设置
+	 * 保存系统设置1
 	 */
 	@RequestMapping(value="/saveSys")
-	public ModelAndView saveU(PrintWriter out) throws Exception{
+	public ModelAndView saveSys() throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -366,6 +391,36 @@ public class HeadController extends BaseController {
 		Tools.writeFile(Const.EMAIL,pd.getString("SMTP")+",fh,"+pd.getString("PORT")+",fh,"+pd.getString("EMAIL")+",fh,"+pd.getString("PAW"));	//写入邮件服务器配置
 		Tools.writeFile(Const.SMS1,pd.getString("SMSU1")+",fh,"+pd.getString("SMSPAW1"));	//写入短信1配置
 		Tools.writeFile(Const.SMS2,pd.getString("SMSU2")+",fh,"+pd.getString("SMSPAW2"));	//写入短信2配置
+		mv.addObject("msg","OK");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**
+	 * 保存系统设置2
+	 */
+	@RequestMapping(value="/saveSys2")
+	public ModelAndView saveSys2() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		Tools.writeFile(Const.FWATERM,pd.getString("isCheck1")+",fh,"+pd.getString("fcontent")+",fh,"+pd.getString("fontSize")+",fh,"+pd.getString("fontX")+",fh,"+pd.getString("fontY"));	//文字水印配置
+		Tools.writeFile(Const.IWATERM,pd.getString("isCheck2")+",fh,"+pd.getString("imgUrl")+",fh,"+pd.getString("imgX")+",fh,"+pd.getString("imgY"));	//图片水印配置
+		Watermark.fushValue();
+		mv.addObject("msg","OK");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**
+	 * 保存系统设置3
+	 */
+	@RequestMapping(value="/saveSys3")
+	public ModelAndView saveSys3() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		Tools.writeFile(Const.WEIXIN,pd.getString("Token"));	//写入微信配置
 		mv.addObject("msg","OK");
 		mv.setViewName("save_result");
 		return mv;

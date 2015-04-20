@@ -11,7 +11,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,99 +33,83 @@ import org.marker.weixin.MySecurity;
 import org.marker.weixin.msg.Data4Item;
 import org.marker.weixin.msg.Msg4ImageText;
 import org.marker.weixin.msg.Msg4Text;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
-
-
-
-
-
-
+import com.fh.util.Const;
 import com.fh.util.PageData;
+import com.fh.util.Tools;
 
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.X509TrustManager;
-
-/*
- *微信公共平台开发 
+/**
+ * 
+* 类名称：WeixinController.java
+* 类描述： 微信公共平台开发 
+* @version 1.0
  */
-
 @Controller
 @RequestMapping(value="/weixin")
 public class WeixinController extends BaseController{
 	
-	public static final String TOKEN = "fuyi686";
-	
-	/* ===================================================易语言================================================== */
-	//易语言发送请求测试
-	@RequestMapping(value="/yiyuyan")
-	public void yyy() {
-		logBefore(logger, "易语言");
+	/**
+	 * 接口验证,总入口
+	 * @param out
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	 @RequestMapping(value="/index")
+	 public void index(
+			 PrintWriter out,
+			 HttpServletRequest request,
+			 HttpServletResponse response
+			 ) throws Exception{     
+		 logBefore(logger, "微信接口");
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			String msg = pd.getString("msg");
-			System.out.println("========"+msg);
-		
-		}catch(Exception e){
+			String signature = pd.getString("signature");		//微信加密签名
+			String timestamp = pd.getString("timestamp");		//时间戳
+			String nonce	 = pd.getString("nonce");			//随机数
+			String echostr 	 = pd.getString("echostr");			//字符串
+
+			if(null != signature && null != timestamp && null != nonce && null != echostr){/* 接口验证  */
+				System.out.println("========进入身份验证");
+			    List<String> list = new ArrayList<String>(3) { 
+				    private static final long serialVersionUID = 2621444383666420433L; 
+				    public String toString() {  // 重写toString方法，得到三个参数的拼接字符串
+				               return this.get(0) + this.get(1) + this.get(2); 
+				           } 
+				         }; 
+				   list.add(Tools.readTxtFile(Const.WEIXIN)); 		//读取Token(令牌)
+				   list.add(timestamp); 
+				   list.add(nonce); 
+				   Collections.sort(list);							// 排序 
+				   String tmpStr = new MySecurity().encode(list.toString(), 
+				    MySecurity.SHA_1);								// SHA-1加密 
+				   
+				    if (signature.equals(tmpStr)) { 
+				           out.write(echostr);						// 请求验证成功，返回随机码 
+				     }else{ 
+				           out.write(""); 
+			       } 
+				out.flush();
+				out.close(); 
+			}else{/* 消息处理  */
+				System.out.println("========进入消息处理");
+				response.reset();
+				sendMsg(request,response);
+			}
+		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
 	}
-	//json
-	@RequestMapping(value="/yJson")    
-	 public ResponseEntity<String> yJson() {     
-		logBefore(logger, "json");
-		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			String by_id = pd.getString("by_id");
-			List<String> allFlHclist = new ArrayList<String>();
-			
-			allFlHclist.add("你好");
-			allFlHclist.add("大家");
-			allFlHclist.add("不错");
-			
-			 JSONObject jSon = new JSONObject();
-			 jSon.put("list", allFlHclist);    
-			 HttpHeaders headers = new HttpHeaders();     
-	         MediaType mediaType=new MediaType("text","html",Charset.forName("utf-8"));     
-	         headers.setContentType(mediaType);     
-	         ResponseEntity<String> responseEntity =new ResponseEntity<String>(jSon.toString(),headers,HttpStatus.OK);     
-	         return responseEntity;
-		}catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return null;
-	  }
-	/* ===================================================易语言================================================== */
-	
-	
-	//去页面
-	@RequestMapping(value="/weixinPage")
-	public ModelAndView weixinPage() {
-		logBefore(logger, "去修微信面");
-		ModelAndView mv = this.getModelAndView();
-		try{
-			
-			mv.setViewName("system/weixin/weixin");
-		
-		}catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
-	}
-	
-    //处理微信服务器发过来的各种消息，包括：文本、图片、地理位置、音乐等等 
-	 @RequestMapping(value="/index")    
+	 /**
+	  * 处理微信服务器发过来的各种消息，包括：文本、图片、地理位置、音乐等等 
+	  * @param request
+	  * @param response
+	  * @throws Exception
+	  */
 	 public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws Exception{ 
 
          InputStream is = request.getInputStream(); 
@@ -135,16 +121,14 @@ public class WeixinController extends BaseController{
         	 @Override 
              public void onTextMsg(Msg4Text msg) { 
                 System.out.println("收到微信消息："+msg.getContent()); 
-                
                 Process p;
-                
                 //文字消息
                 if("1".equals(msg.getContent())){ 
                      Msg4Text rmsg = new Msg4Text(); 
                      rmsg.setFromUserName(msg.getToUserName()); 
                      rmsg.setToUserName(msg.getFromUserName()); 
                      //rmsg.setFuncFlag("0"); 
-                     rmsg.setContent("你好!"); 
+                     rmsg.setContent("你好!我是FHadmin"); 
                      session.callback(rmsg); 
                     return; 
                  }else if("2".equals(msg.getContent())){
@@ -165,8 +149,7 @@ public class WeixinController extends BaseController{
                  }else if("打开QQ".equals(msg.getContent()) || "打开qq".equals(msg.getContent())){
                 	 Runtime runtime = Runtime.getRuntime(); 
              		try {
-             			p = runtime.exec("D:/MYSOFT/QQ/Bin/qq");
-             			//p = runtime.exec("D:/SOFT/QQ/QQ/Bin/qq");
+             			p = runtime.exec("D:/SOFT/QQ/QQ/Bin/qq");
              		} catch (IOException e) {
              			e.printStackTrace();
              		} 
@@ -211,47 +194,6 @@ public class WeixinController extends BaseController{
          session.close();			//关闭Session 
      } 
 
-	/*接口验证，首次验证 @RequestMapping(value="/index")*/
-	@RequestMapping(value="/index_9999")    
-	 public void index(PrintWriter out) throws Exception{     
-		
-		logBefore(logger, "微信接口");
-		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			String signature = pd.getString("signature");		//微信加密签名
-			String timestamp = pd.getString("timestamp");		//时间戳
-			String nonce	 = pd.getString("nonce");			//随机数
-			String echostr 	 = pd.getString("echostr");			//字符串
-			
-
-			// 重写totring方法，得到三个参数的拼接字符串 
-		    List<String> list = new ArrayList<String>(3) { 
-			    private static final long serialVersionUID = 2621444383666420433L; 
-			    public String toString() { 
-			               return this.get(0) + this.get(1) + this.get(2); 
-			           } 
-			         }; 
-			   list.add(TOKEN); 
-			   list.add(timestamp); 
-			   list.add(nonce); 
-			   Collections.sort(list);							// 排序 
-			   String tmpStr = new MySecurity().encode(list.toString(), 
-			    MySecurity.SHA_1);								// SHA-1加密 
-			   
-			    if (signature.equals(tmpStr)) { 
-			            out.write(echostr);						// 请求验证成功，返回随机码 
-			     }else{ 
-			            out.write(""); 
-		       } 
-			out.flush(); 
-		    out.close(); 
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-	}
-	
-	
 	//================================================获取关注列表==============================================================
 	public final static String gz_url="https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=";
 	//获取access_token

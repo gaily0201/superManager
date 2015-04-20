@@ -90,4 +90,22 @@
 			id = #{id}
 	</delete>
 	
+	<!-- 列表 -->
+	<select id="newslist" parameterType="pd" resultType="pd">
+		select 
+			title,
+			publisher,
+			addtime,
+			uptime,
+			pip,
+			hits,
+			sequence,
+			recommand,
+			status				
+		from sys_news 
+		where
+			status = '1'
+		order by recommand, sequence desc
+	</select>
+	
 </mapper>

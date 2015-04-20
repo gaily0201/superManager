@@ -2,6 +2,7 @@ package com.fh.controller.system.tools;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,10 +16,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.util.AppUtil;
+import com.fh.util.Const;
+import com.fh.util.MapDistance;
 import com.fh.util.PageData;
+import com.fh.util.PathUtil;
+import com.fh.util.TwoDimensionCode;
 
 /** 
  * 类名称：ToolController
+ * 创建人：FH 
+ * 创建时间：2015年4月4日
  * @version
  */
 @Controller
@@ -41,7 +48,7 @@ public class ToolController extends BaseController {
 	
 	/**
 	 *	接口内部请求
-	 * @param args
+	 * @param 
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/severTest")
@@ -84,6 +91,137 @@ public class ToolController extends BaseController {
 		mv.setViewName("system/tools/email");
 		mv.addObject("pd", pd);
 		return mv;
+	}
+	
+	/**
+	 * 二维码页面
+	 */
+	@RequestMapping(value="/goTwoDimensionCode")
+	public ModelAndView goTwoDimensionCode() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("system/tools/twoDimensionCode");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 *	生成二维码
+	 * @param args
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/createTwoDimensionCode")
+	@ResponseBody
+	public Object createTwoDimensionCode(){
+		Map<String,String> map = new HashMap<String,String>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String errInfo = "success", encoderImgId = this.get32UUID()+".png"; //encoderImgId此处二维码的图片名
+		String encoderContent = pd.getString("encoderContent");				//内容
+		if(null == encoderContent){
+			errInfo = "error";
+		}else{
+			try {
+				String filePath = PathUtil.getClasspath() + Const.FILEPATHTWODIMENSIONCODE + encoderImgId;  //存放路径
+				TwoDimensionCode.encoderQRCode(encoderContent, filePath, "png");							//执行生成二维码
+			} catch (Exception e) {
+				errInfo = "error";
+			}
+		}
+		map.put("result", errInfo);						//返回结果
+		map.put("encoderImgId", encoderImgId);			//二维码图片名
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**
+	 *	解析二维码
+	 * @param args
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/readTwoDimensionCode")
+	@ResponseBody
+	public Object readTwoDimensionCode(){
+		Map<String,String> map = new HashMap<String,String>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String errInfo = "success",readContent="";
+		String imgId = pd.getString("imgId");//内容
+		if(null == imgId){
+			errInfo = "error";
+		}else{
+			try {
+				String filePath = PathUtil.getClasspath() + Const.FILEPATHTWODIMENSIONCODE + imgId;  //存放路径
+				readContent = TwoDimensionCode.decoderQRCode(filePath);//执行读取二维码
+			} catch (Exception e) {
+				errInfo = "error";
+			}
+		}
+		map.put("result", errInfo);						//返回结果
+		map.put("readContent", readContent);			//读取的内容
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	
+	/**
+	 * 多级别树页面
+	 */
+	@RequestMapping(value="/ztree")
+	public ModelAndView ztree() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("system/tools/ztree");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 地图页面
+	 */
+	@RequestMapping(value="/map")
+	public ModelAndView map() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("system/tools/map");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 获取地图坐标页面
+	 */
+	@RequestMapping(value="/mapXY")
+	public ModelAndView mapXY() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("system/tools/mapXY");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 *	根据经纬度计算距离
+	 * @param args
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/getDistance")
+	@ResponseBody
+	public Object getDistance(){
+		Map<String,String> map = new HashMap<String,String>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String errInfo = "success",distance="";
+		try {
+			distance  = MapDistance.getDistance(pd.getString("ZUOBIAO_Y"),pd.getString("ZUOBIAO_X"),pd.getString("ZUOBIAO_Y2"),pd.getString("ZUOBIAO_X2"));
+		} catch (Exception e) {
+			errInfo = "error";
+		}
+		map.put("result", errInfo);				//返回结果
+		map.put("distance", distance);			//距离
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 }

@@ -51,4 +51,12 @@ public class NewsService {
 	public void delete(PageData pd)throws Exception{
 		dao.update("NewsMapper.delete", pd);
 	}
+	
+	/*
+	*列表
+	*/
+	public List<PageData> newslist(PageData pd)throws Exception{
+		return (List<PageData>) dao.findForList("NewsMapper.newslist", pd);
+	}
+	
 }

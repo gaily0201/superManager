@@ -22,17 +22,6 @@
 <div class="container-fluid" id="main-container">
 
 		
-<div id="breadcrumbs">
-
-<ul class="breadcrumb">
-	<li><i class="icon-home"></i> <a>信息管理</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-	<li class="active">新闻管理</li>
-</ul><!--.breadcrumb-->
-
-<div id="nav-search">
-</div><!--#nav-search-->
-
-</div><!--#breadcrumbs-->
 
 
 <div id="page-content" class="clearfix">
@@ -76,6 +65,7 @@
 						</select>
 					</td>
 					<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"><i id="nav-search-icon" class="icon-search"></i></button></td>
+					<td style="vertical-align:top;"><a class="btn btn-mini btn-light" onclick="createHtml();" title="生成html"><i id="nav-search-icon" class="icon-cog"></i></a></td>
 				</tr>
 			</table>
 			<!-- 检索  -->
@@ -187,15 +177,14 @@
 		</a>
 		
 		<!-- 引入 -->
-		<script src="1.9.1/jquery.min.js"></script>
-		<script type="text/javascript">window.jQuery || document.write("<script src='js/jquery-1.9.1.min.js'>\x3C/script>");</script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/ace-elements.min.js"></script>
-		<script src="js/ace.min.js"></script>
+		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/ace-elements.min.js"></script>
+		<script src="static/js/ace.min.js"></script>
 		
-		<script type="text/javascript" src="js/chosen.jquery.min.js"></script><!-- 单选框 -->
-		<script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
-		<script type="text/javascript" src="js/bootbox.min.js"></script><!-- 确认窗口 -->
+		<script type="text/javascript" src="static/js/chosen.jquery.min.js"></script><!-- 单选框 -->
+		<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
 		<!-- 引入 -->
 		
 		<script type="text/javascript">
@@ -213,7 +202,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = 'news/goAdd.do';
+			 diag.URL = '<%=basePath%>news/goAdd.do';
 			 diag.Width = 800;
 			 diag.Height = 650;
 			 diag.CancelEvent = function(){ //关闭事件
@@ -236,7 +225,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = 'news/goEdit.do?id='+id;
+			 diag.URL = '<%=basePath%>news/goEdit.do?id='+id;
 			 diag.Width = 800;
 			 diag.Height = 650;
 			 diag.CancelEvent = function(){ //关闭事件
@@ -252,7 +241,7 @@
 		function del(id){
 			bootbox.confirm("确定要删除该记录?", function(result) {
 				if(result) {
-					var url = "news/delete.do?id="+id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>news/delete.do?id="+id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data=="success"){
 							nextPage(${page.currentPage});
@@ -262,18 +251,37 @@
 			});
 		}
 		
+		//生成html
+		function createHtml(){
+			bootbox.confirm("确定要生成html?", function(result) {
+				if(result) {
+					var url = "<%=basePath%>news/createHtml.do?tm="+new Date().getTime();
+					$.get(url,function(data){
+						if(data=="success"){
+							alert("OK");
+						}
+					});
+				}
+			});
+		}
 		</script>
 		
 		<script type="text/javascript">
 		
 		$(function() {
+			
 			//单选框
 			$(".chzn-select").chosen(); 
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
+			
 			//日期框
 			$('.date-picker').datepicker();
+			
 		});
+		
+		
 		</script>
+		
 	</body>
 </html>
 

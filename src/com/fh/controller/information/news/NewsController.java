@@ -1,6 +1,7 @@
 package com.fh.controller.information.news;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,10 @@ import com.fh.entity.Page;
 import com.fh.entity.system.Menu;
 import com.fh.service.information.news.NewsService;
 import com.fh.util.DateUtil;
+import com.fh.util.DelAllFile;
+import com.fh.util.Freemarker;
 import com.fh.util.PageData;
+import com.fh.util.PathUtil;
 
 /** 
  * 类名称：NewsController
@@ -192,6 +196,30 @@ public class NewsController extends BaseController{
 		
 	}
 	
+	/**
+	 * 生成html
+	 */
+	@RequestMapping(value="/createHtml")
+	public void createHtml(PrintWriter out)throws Exception{
+		ModelAndView mv = new ModelAndView();
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			DelAllFile.delFolder(PathUtil.getClasspath()+"html/news"); //生成代码前,先清空之前生成的代码
+			Map<String,Object> root = new HashMap<String,Object>();		//创建数据模型
+			List<PageData>	varList = newsService.newslist(pd);
+			root.put("varList", varList);
+			String filePath = "html/news/";								//存放路径
+			String ftlPath = "news";									//ftl路径
+			/*生成*/
+			Freemarker.printFile("index.ftl", root, "index.html", filePath, ftlPath);
+			out.write("success");
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}
 	
 	/* ===============================权限================================== */
 	public void getHC(){
