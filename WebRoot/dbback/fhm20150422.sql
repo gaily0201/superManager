@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
--- Host: localhost    Database: fhm2.4
+-- Host: localhost    Database: fhm
 -- ------------------------------------------------------
 -- Server version	5.6.23-log
 
@@ -14,6 +14,35 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `mgr_index`
+--
+
+DROP TABLE IF EXISTS `mgr_index`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mgr_index` (
+  `INDEX_ID` varchar(100) NOT NULL,
+  `NAME` varchar(100) DEFAULT NULL,
+  `PATH` varchar(100) DEFAULT NULL,
+  `ORDY_BY` int(10) DEFAULT NULL,
+  `JB` int(10) DEFAULT NULL,
+  `PARENT_ID` varchar(100) DEFAULT NULL,
+  `P_PATH` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`INDEX_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mgr_index`
+--
+
+LOCK TABLES `mgr_index` WRITE;
+/*!40000 ALTER TABLE `mgr_index` DISABLE KEYS */;
+INSERT INTO `mgr_index` VALUES ('bbaa75ae7c4c4f1fbd5fda53814395aa','index','index.html',1,1,'0','index.html');
+/*!40000 ALTER TABLE `mgr_index` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `sys_app_user`
@@ -109,7 +138,7 @@ CREATE TABLE `sys_gl_qx` (
 
 LOCK TABLES `sys_gl_qx` WRITE;
 /*!40000 ALTER TABLE `sys_gl_qx` DISABLE KEYS */;
-INSERT INTO `sys_gl_qx` VALUES ('1','2',1,1,1,1,1,1),('2','1',0,0,1,1,1,1),('55896f5ce3c0494fa6850775a4e29ff6','7',0,0,1,0,0,0),('68f23fc0caee475bae8d52244dea8444','7',0,0,1,1,0,0),('7dfd8d1f7b6245d283217b7e63eec9b2','1',1,1,1,0,0,0),('ac66961adaa2426da4470c72ffeec117','1',1,0,1,1,0,0),('b0c77c29dfa140dc9b14a29c056f824f','7',1,0,1,1,0,0),('e74f713314154c35bd7fc98897859fe3','6',1,1,1,1,0,0),('f944a9df72634249bbcb8cb73b0c9b86','7',1,1,1,1,0,0);
+INSERT INTO `sys_gl_qx` VALUES ('1','2',1,1,1,1,1,1),('2','1',1,1,1,1,1,1),('3891726d48914fab944a2144b36dccd0','0',0,0,0,0,0,0),('55896f5ce3c0494fa6850775a4e29ff6','7',0,0,1,0,0,0),('68f23fc0caee475bae8d52244dea8444','7',0,0,1,1,0,0),('ac66961adaa2426da4470c72ffeec117','1',0,1,1,1,0,0),('b0c77c29dfa140dc9b14a29c056f824f','7',1,0,1,1,0,0),('f944a9df72634249bbcb8cb73b0c9b86','7',1,1,1,1,0,0);
 /*!40000 ALTER TABLE `sys_gl_qx` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,8 +167,41 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-INSERT INTO `sys_menu` VALUES (1,'系统管理','#','0','1','icon-desktop','1'),(2,'组织管理','role.do','1','2',NULL,'1'),(4,'会员管理','happuser/listUsers.do','1','4',NULL,'1'),(5,'系统用户','user/listUsers.do','1','3',NULL,'1'),(6,'信息管理','#','0','2','icon-list-alt','2'),(7,'图片管理','pictures/list.do','6','1',NULL,'2'),(8,'性能监控','druid/index.html','9','1',NULL,'1'),(9,'系统工具','#','0','3','icon-th','1'),(10,'接口测试','tool/interfaceTest.do','9','2',NULL,'1'),(11,'发送邮件','tool/goSendEmail.do','9','3',NULL,'1'),(12,'置二维码','tool/goTwoDimensionCode.do','9','4',NULL,'1'),(13,'多级别树','tool/ztree.do','9','5',NULL,'1'),(14,'地图工具','tool/map.do','9','6',NULL,'1');
+INSERT INTO `sys_menu` VALUES (1,'权限管理','#','0','3','icon-lock','1'),(2,'组织管理','role.do','1','2',NULL,'1'),(4,'会员管理','happuser/listUsers.do','1','4',NULL,'1'),(5,'用户管理','user/listUsers.do','1','3',NULL,'1'),(6,'资源管理','#','0','2','icon-list-alt','2'),(7,'图片管理','pictures/list.do','6','1',NULL,'2'),(8,'性能监控','druid/index.html','9','1',NULL,'1'),(9,'系统工具','#','0','4','icon-cogs','1'),(10,'数据备份','system/admin/default','9','3',NULL,'1'),(11,'邮件管理','tool/goSendEmail.do','9','2',NULL,'1'),(12,'页面资源','mgrIndex.do?PARENT_ID=0','6','2',NULL,'2'),(16,'内容管理','#','0','1','icon-file',''),(17,'新闻管理','news/list.do','16','2',NULL,''),(18,'图标管理','pictures/list.do','16','1',NULL,''),(19,'系统配置','system/admin/default','9','4',NULL,'1'),(20,'常用工具','#','0','5','icon-calendar','1'),(21,'附件管理','system/admin/default','6','3',NULL,'2'),(22,'记事本','system/admin/default','20','1',NULL,'1'),(23,'待办任务','system/admin/default','20','2',NULL,'1'),(24,'日历','system/admin/default','20','3',NULL,'1'),(25,'通讯录','system/admin/default','20','4',NULL,'1'),(26,'公告管理','system/admin/default','16','3',NULL,''),(27,'开发工具','#','0','6','icon-list',''),(28,'接口测试','tool/interfaceTest.do','27','1',NULL,''),(29,'置二维码','tool/goTwoDimensionCode.do','27','2',NULL,''),(30,'多级别树','tool/ztree.do','27','3',NULL,''),(31,'地图工具','tool/map.do','27','4',NULL,'');
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_news`
+--
+
+DROP TABLE IF EXISTS `sys_news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sys_news` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '新闻ID',
+  `title` varchar(150) DEFAULT NULL COMMENT '新闻标题',
+  `content` text COMMENT '新闻内容',
+  `publisher` varchar(50) DEFAULT NULL COMMENT '发布人',
+  `addtime` varchar(50) DEFAULT NULL COMMENT '发布时间',
+  `uptime` varchar(50) DEFAULT NULL COMMENT '修改时间',
+  `pip` varchar(50) DEFAULT NULL COMMENT '发布IP',
+  `hits` int(11) DEFAULT '0' COMMENT '点击数',
+  `sequence` int(10) DEFAULT '0' COMMENT '排序',
+  `recommand` char(2) DEFAULT '0' COMMENT '推荐  0默认未推荐，1推荐',
+  `status` char(2) DEFAULT '0' COMMENT '状态  0默认未发布，1发布',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_news`
+--
+
+LOCK TABLES `sys_news` WRITE;
+/*!40000 ALTER TABLE `sys_news` DISABLE KEYS */;
+INSERT INTO `sys_news` VALUES (2,'新闻标题2','<p>新闻内容2</p>','张三2','2014-12-01 20:59:33','2014-12-15 11:38:00','127.0.0.1',0,2,'1','0'),(3,'www','<p>wwww</p>','fdgf','2014-12-02 01:07:41','2014-12-02 21:39:11','127.0.0.1',0,0,'0','0'),(5,'2323','<p>4565656</p>','456465','2014-12-15 11:38:59','2014-12-15 11:38:59','127.0.0.1',0,4564,'0','0'),(6,'dddd','<p><img src=\"http://img.baidu.com/hi/jx2/j_0024.gif\"/></p>','ddddd','2014-12-24 10:55:34','2014-12-24 10:55:34','127.0.0.1',0,0,'0','0');
+/*!40000 ALTER TABLE `sys_news` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -169,7 +231,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES ('1','系统管理员','32758','0','1','1','1','1','1'),('2','超级管理员','32758','1','246','50','50','38','2'),('4','用户组','118','0','0','0','0','0',NULL),('55896f5ce3c0494fa6850775a4e29ff6','特级会员','498','7','0','0','0','0','55896f5ce3c0494fa6850775a4e29ff6'),('6','客户组','18','0','1','1','1','1',NULL),('68f23fc0caee475bae8d52244dea8444','中级会员','498','7','0','0','0','0','68f23fc0caee475bae8d52244dea8444'),('7','会员组','498','0','0','0','0','1',NULL),('7dfd8d1f7b6245d283217b7e63eec9b2','管理员B','32758','1','246','0','0','0','7dfd8d1f7b6245d283217b7e63eec9b2'),('ac66961adaa2426da4470c72ffeec117','管理员A','32758','1','54','54','0','246','ac66961adaa2426da4470c72ffeec117'),('b0c77c29dfa140dc9b14a29c056f824f','高级会员','498','7','0','0','0','0','b0c77c29dfa140dc9b14a29c056f824f'),('e74f713314154c35bd7fc98897859fe3','黄金客户','18','6','1','1','1','1','e74f713314154c35bd7fc98897859fe3'),('f944a9df72634249bbcb8cb73b0c9b86','初级会员','498','7','1','1','1','1','f944a9df72634249bbcb8cb73b0c9b86');
+INSERT INTO `sys_role` VALUES ('1','系统管理员','4294909942','0','1','1','1','1','1'),('2','超级管理员','4294909942','1','8182','8178','8182','8182','2'),('ac66961adaa2426da4470c72ffeec117','管理员A','4294909942','1','54','54','0','246','ac66961adaa2426da4470c72ffeec117');
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,7 +267,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES ('089d664844f8441499955b3701696fc0','fushide','67bc304642856b709dfeb907b92cc7e10e0b02f2','富师德','','2','','','0','18629359','default','asdadf@qq.com','1231','18766666666'),('0b3f2ab1896b47c097a81d322697446a','zhangsan','c4ca4238a0b923820dcc509a6f75849b','张三','','2','2015-01-02 12:04:51','127.0.0.1','0','小张','default','wwwwq@qq.com','1101','18788888888'),('0e2da7c372e147a0b67afdf4cdd444a3','dfsdf','c49639f0b2c5dda506b777a1e518990e9a88a221','wqeqw','','e74f713314154c35bd7fc98897859fe3','','','0','ff','default','q324@qq.com','dsfsdddd','18767676767'),('1','admin','de41b7fb99201d8334c23c014db35ecd92df81bc','系统管理员','1133671055321055258374707980945218933803269864762743594642571294','1','2015-04-20 20:45:25','127.0.0.1','0','最高统治者','skin-1','admin@main.com','001','18788888888'),('b825f152368549069be79e1d34184afa','san','9b69448e5ac7f9e7544732aaba4bb8e8885ccbe1','三','','2','','','0','sdfsdgf','default','sdfsdf@qq.com','sdsaw22','2147483647'),('be025a79502e433e820fac37ddb1cfc2','zhangsan570256','42f7554cb9c00e11ef16543a2c86ade815b79faa','张三','','2','','','0','小张','default','zhangsan@www.com','21101','2147483647');
+INSERT INTO `sys_user` VALUES ('0b3f2ab1896b47c097a81d322697446a','zhangsan','c4ca4238a0b923820dcc509a6f75849b','张三','','ac66961adaa2426da4470c72ffeec117','2015-01-02 12:04:51','127.0.0.1','0','小张','default','wwwwq@qq.com','1101','18788888888'),('1','admin','de41b7fb99201d8334c23c014db35ecd92df81bc','系统管理员','1133671055321055258374707980945218933803269864762743594642571294','1','2015-04-22 15:38:20','0:0:0:0:0:0:0:1','0','最高统治者','skin-1','admin@main.com','001','18788888888'),('32022f1dc5ac4acc99f9a8e924714d22','xiaoh','95ffc959f509ae78b10f0d45e3924c62ea33fe14','super','','2','2015-04-16 22:21:40','127.0.0.1','0','super','default','446029658@qq.com','1010','18576771720');
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +298,7 @@ CREATE TABLE `sys_user_qx` (
 
 LOCK TABLES `sys_user_qx` WRITE;
 /*!40000 ALTER TABLE `sys_user_qx` DISABLE KEYS */;
-INSERT INTO `sys_user_qx` VALUES ('1',1,0,0,0,0,0,0,0),('2',1,1,1,1,1,1,1,1),('55896f5ce3c0494fa6850775a4e29ff6',0,0,0,0,0,0,0,0),('68f23fc0caee475bae8d52244dea8444',0,0,0,0,0,0,0,0),('7dfd8d1f7b6245d283217b7e63eec9b2',0,0,0,0,0,0,0,0),('ac66961adaa2426da4470c72ffeec117',0,0,0,0,0,0,0,0),('b0c77c29dfa140dc9b14a29c056f824f',0,0,0,0,0,0,0,0),('e74f713314154c35bd7fc98897859fe3',0,0,0,0,0,0,0,0),('f944a9df72634249bbcb8cb73b0c9b86',0,0,0,0,0,0,0,0);
+INSERT INTO `sys_user_qx` VALUES ('1',1,0,0,0,0,0,0,0),('2',1,1,1,1,1,1,1,1),('3891726d48914fab944a2144b36dccd0',0,0,0,0,0,0,0,0),('55896f5ce3c0494fa6850775a4e29ff6',0,0,0,0,0,0,0,0),('68f23fc0caee475bae8d52244dea8444',0,0,0,0,0,0,0,0),('ac66961adaa2426da4470c72ffeec117',0,0,0,0,0,0,0,0),('b0c77c29dfa140dc9b14a29c056f824f',0,0,0,0,0,0,0,0),('f944a9df72634249bbcb8cb73b0c9b86',0,0,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `sys_user_qx` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +327,7 @@ CREATE TABLE `tb_pictures` (
 
 LOCK TABLES `tb_pictures` WRITE;
 /*!40000 ALTER TABLE `tb_pictures` DISABLE KEYS */;
-INSERT INTO `tb_pictures` VALUES ('1c4064ea4a7b4387a54aaf15faae3329','图片','1d0554d756a94b36a03756f944f83911.jpg','20150417/1d0554d756a94b36a03756f944f83911.jpg','2015-04-17 03:13:34','1','图片管理处上传'),('2063276258a04b168cb77e8b56e085cd','图片','9257f49ebd344433918f00e027bd1447.jpg','20150417/9257f49ebd344433918f00e027bd1447.jpg','2015-04-17 03:12:48','1','图片管理处上传'),('2a5b4f70002643e09fe368bcc572ac9f','图片','d6da4ab0537645a18aac087976d01a0b.png','20150417/d6da4ab0537645a18aac087976d01a0b.png','2015-04-17 03:12:48','1','图片管理处上传'),('88b69a1e2dc94c96a6c6cd878b51e5d7','图片','60ff037042ce4aa084edce40a46266d9.jpg','20150417/60ff037042ce4aa084edce40a46266d9.jpg','2015-04-17 03:16:13','1','图片管理处上传');
+INSERT INTO `tb_pictures` VALUES ('cb6d1076bb0b409eae9b9a65324a2621','图片','9fab32d262164924bd9f0676a4d1a7c2.jpg','20150420/647579c97057494eb7707bc02914e762.jpg','2015-04-20 10:57:30','1','图片管理处上传');
 /*!40000 ALTER TABLE `tb_pictures` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -278,4 +340,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-20 22:00:26
+-- Dump completed on 2015-04-22 17:13:13

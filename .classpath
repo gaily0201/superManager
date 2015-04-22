@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -23,5 +24,11 @@
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v6.0"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/QRCode.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gdata/core-1.47.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gdata/gdata-analytics-2.3.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gdata/gdata-analytics-meta-2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gdata/gdata-core-1.41.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gdata/jsr305-2.0.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gdata/guava-r07.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

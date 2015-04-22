@@ -157,7 +157,7 @@
 				</div>
 				</c:if>
 				<c:if test="${QX.edit == 1 }">
-				<a class="btn btn-mini btn-purple" onclick="javascript:alert('预留功能,待开发');"><i class="icon-pencil"></i>菜单权限</a>
+				<a class="btn btn-mini btn-purple" onclick="editRights('${var.ROLE_ID }');"><i class="icon-pencil"></i>菜单权限</a>
 				<a class='btn btn-mini btn-info' title="编辑" onclick="editRole('${var.ROLE_ID }');"><i class='icon-edit'></i></a>
 				</c:if>
 				<c:choose> 
