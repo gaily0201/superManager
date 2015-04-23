@@ -55,8 +55,12 @@
 						<td style="width:70px;text-align: right;padding-top: 13px;">系统名称:</td>
 						<td><input type="text" name="YSYNAME" id="YSYNAME" value="${pd.YSYNAME }" placeholder="这里输入系统名称" style="width:90%" title="系统名称"/></td>
 					
-						<td style="width:70px;text-align: right;padding-top: 13px;">每页条数:</td>
+						<td style="width:60px;text-align: right;padding-top: 13px;">每页条数:</td>
 						<td><input type="number" name="COUNTPAGE" id="COUNTPAGE" value="${pd.COUNTPAGE }" placeholder="这里输入每页条数" style="width:90%" title="每页条数"/></td>
+					
+						<td style="width:40px;text-align: right;padding-top: 13px;">语言:</td>
+						<td><input type="text" name="LANGUAGE" id="LANGUAGE" value="${pd.LANGUAGE }" placeholder="这里输入系统语言" style="width:90%" title="系统语言"/></td>
+					
 					</tr>
 				</table>
 				

@@ -318,6 +318,7 @@ public class HeadController extends BaseController {
 		pd = this.getPageData();
 		pd.put("YSYNAME", Tools.readTxtFile(Const.SYSNAME));	//读取系统名称
 		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE));		//读取每页条数
+		pd.put("LANGUAGE", Tools.readTxtFile(Const.LANGUAGE));		//读取系统语言
 		String strEMAIL = Tools.readTxtFile(Const.EMAIL);		//读取邮件配置
 		String strSMS1 = Tools.readTxtFile(Const.SMS1);			//读取短信1配置
 		String strSMS2 = Tools.readTxtFile(Const.SMS2);			//读取短信2配置
@@ -388,6 +389,7 @@ public class HeadController extends BaseController {
 		pd = this.getPageData();
 		Tools.writeFile(Const.SYSNAME,pd.getString("YSYNAME"));	//写入系统名称
 		Tools.writeFile(Const.PAGE,pd.getString("COUNTPAGE"));	//写入每页条数
+		Tools.writeFile(Const.LANGUAGE,pd.getString("LANGUAGE"));	//写入每页条数
 		Tools.writeFile(Const.EMAIL,pd.getString("SMTP")+",fh,"+pd.getString("PORT")+",fh,"+pd.getString("EMAIL")+",fh,"+pd.getString("PAW"));	//写入邮件服务器配置
 		Tools.writeFile(Const.SMS1,pd.getString("SMSU1")+",fh,"+pd.getString("SMSPAW1"));	//写入短信1配置
 		Tools.writeFile(Const.SMS2,pd.getString("SMSU2")+",fh,"+pd.getString("SMSPAW2"));	//写入短信2配置

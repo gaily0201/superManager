@@ -64,11 +64,12 @@
 									<c:if test="${user.SKIN =='skin-3' }">selected</c:if>>#D0D0D0</option>
 							</select>
 						</div>
-						<span>&nbsp; 选择皮肤</span>
+						<span>皮肤</span>
 					</div>
 					<div>
-						<label><input type='checkbox' name='menusf' id="menusf"
-							onclick="menusf();" /><span class="lbl" style="padding-top: 5px;">菜单缩放</span></label>
+						<label><input type='checkbox' name='menusf' id="menusf" onclick="menusf();" />
+							<span class="lbl" style="padding-top: 5px;">菜单缩放</span>
+						</label>
 					</div>
 				</div>
 			</div>

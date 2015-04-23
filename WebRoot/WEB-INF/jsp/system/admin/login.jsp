@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%
 	String path = request.getContextPath();
 %>
@@ -22,7 +22,6 @@
 
 </head>
 <body>
-
 	<div
 		style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
 		<div id="loginbox">
@@ -39,7 +38,7 @@
 							<span class="add-on bg_lg"><i><img height="37"
 									src="static/login/user.png" /></i></span><input type="text"
 								name="loginname" id="loginname" value=""
-								placeholder="请输入用户名" />
+								placeholder="<spring:message code="sys.login.username"/>" />
 						</div>
 					</div>
 				</div>
@@ -48,7 +47,7 @@
 						<div class="main_input_box">
 							<span class="add-on bg_ly"><i><img height="37"
 									src="static/login/suo.png" /></i></span><input type="password"
-								name="password" id="password" placeholder="请输入密码" value="" />
+								name="password" id="password" placeholder="<spring:message code="sys.login.password"/>" value="" />
 						</div>
 					</div>
 				</div>

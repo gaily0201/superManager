@@ -22,6 +22,7 @@ public class Const {
 	public static final String SYSNAME = "admin/config/SYSNAME.txt";	//系统名称路径
 	public static final String PAGE	= "admin/config/PAGE.txt";			//分页条数配置路径
 	public static final String EMAIL = "admin/config/EMAIL.txt";		//邮箱服务器配置路径
+	public static final String LANGUAGE = "admin/config/LANGUAGE.txt";		//语言配置路径
 	public static final String SMS1 = "admin/config/SMS1.txt";			//短信账户配置路径1
 	public static final String SMS2 = "admin/config/SMS2.txt";			//短信账户配置路径2
 	public static final String FWATERM = "admin/config/FWATERM.txt";	//文字水印配置路径
