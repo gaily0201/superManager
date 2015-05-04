@@ -114,7 +114,9 @@ public class MgrIndexController extends BaseController {
 		}
 		page.setShowCount(5);	//设置每页显示条数
 		page.setPd(pd);				
-		List<PageData> varList = mgrIndexService.dictlistPage(page);
+//		List<PageData> varList = mgrIndexService.dictlistPage(page);
+		List<PageData> varList = mgrIndexService.dictlistAll(page);
+		
 		
 		mv.setViewName("mgr/index/idx_list");
 		mv.addObject("varList", varList);

@@ -14,17 +14,27 @@
 		<title></title>
 		<meta name="description" content="overview & stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		
+		<link rel="stylesheet" href="static/css/screen.css" media="screen" />
+		<link href="static/css/jquery.treetable.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/jquery.treetable.theme.default.css" />
+
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="static/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="static/css/font-awesome.min.css" />
+<!--	
+-->		
 		<link rel="stylesheet" href="static/css/ace.min.css" />
 		<link rel="stylesheet" href="static/css/ace-responsive.min.css" />
-		<link rel="stylesheet" href="static/css/ace-skins.min.css" />
-		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
+		<link rel="stylesheet" href="static/css/ace-skins.min.css" />		
 		<script type="text/javascript" src="static/js/bootbox.min.js"></script><!-- 确认窗口 -->
+
+		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="static/js/jquery-ui.js"></script>
+		<script type="text/javascript" src="static/js/jquery.treetable.js"></script>
 		
 <script type="text/javascript">
-	
 	$(top.hangge());
 	
 	//新增
@@ -121,7 +131,7 @@
 		</tr>
 	</table>
 	<!-- 检索  -->
-
+<!-- 
 	<table id="table_report" class="table table-striped table-bordered table-hover">
 		<thead>
 		<tr>
@@ -153,6 +163,42 @@
 			</c:otherwise>
 		</c:choose>
 	</table>
+	-->
+	<table id="table_report2" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<!-- <th class="center"  style="width: 50px;">序号</th> -->
+				<th class='center'>名称</th>
+				<th class='center'>路径</th>
+				<th class='center'>级别</th>
+				<th class='center'>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:choose>
+				<c:when test="${not empty varList}">
+					<c:forEach items="${varList}" var="var" varStatus="vs">
+					<tr data-tt-id="${var.INDEX_ID }" <c:if test="${var.PARENT_ID !='0'}">data-tt-parent-id="${var.PARENT_ID }" </c:if>>
+					<!--<td class="center">${var.ORDY_BY }</td>-->
+					<td class='center'>&nbsp;${var.NAME }</a></td>
+					<td class='center'>${var.P_PATH }</td>
+					<td class='center' style="width:35px;"><b class="green">${var.JB }</b></td>
+					<td style="width: 68px;">
+					<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.INDEX_ID }')" ><i class='icon-edit'></i></a>
+					<a class='btn btn-mini btn-danger' title="删除"  onclick="del('${var.INDEX_ID }')"><i class='icon-trash'></i></a>
+					</tr>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<tr>
+					<td colspan="100" class="center">没有相关数据</td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
+		</tbody>
+	</table>
+	
+	
 	
 		<div class="page-header position-relative">
 		<table style="width:100%;">
@@ -162,12 +208,14 @@
 					<td style="vertical-align:top;" class="left"><a class="btn btn-small btn-info" onclick="location.href='<%=basePath%>/mgrIndex.do?PARENT_ID=${pdp.PARENT_ID }';">返回</a></td>
 				</c:if>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
-			</tr>
+			
 		</table>
 		</div>
 	</form>
 </div>
 </div>
-
+	<script>
+		$("#table_report2").treetable({ expandable: true });
+	</script>
 </body>
 </html>

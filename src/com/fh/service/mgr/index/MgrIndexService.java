@@ -48,6 +48,10 @@ public class MgrIndexService{
 		
 	}
 	
+	public List<PageData> dictlistAll(Page page) throws Exception{
+		return (List<PageData>) dao.findForList("MgrIndexMapper.dictlistAll", page);
+	}
+	
 	//删除
 	public void delete(PageData pd) throws Exception {
 		dao.delete("MgrIndexMapper.delete", pd);

@@ -1,0 +1,45 @@
+table.treetable thead {
+  background: #aaa url(../images/treetable/bg-table-thead.png) repeat-x top left;
+}
+
+table.treetable span.file {
+  background-image: url(../images/treetable/file.png);
+}
+
+table.treetable span.folder {
+  background-image: url(../images/treetable/folder.png);
+}
+
+table.treetable tr.collapsed span.indenter a {
+  background-image: url(../images/treetable/expand.png);
+}
+
+table.treetable tr.expanded span.indenter a {
+  background-image: url(../images/treetable/collapse.png);
+}
+
+table.treetable tr.selected {
+  background-color: #3875d7;
+  color: #fff;
+}
+
+table.treetable tr.collapsed.selected span.indenter a {
+  background-image: url(../images/treetable/expand-light.png);
+}
+
+table.treetable tr.expanded.selected span.indenter a {
+  background-image: url(../images/treetable/collapse-light.png);
+}
+
+table.treetable tr.accept {
+  background-color: #a3bce4;
+  color: #fff
+}
+
+table.treetable tr.collapsed.accept td span.indenter a {
+  background-image: url(../images/treetable/expand-light.png);
+}
+
+table.treetable tr.expanded.accept td span.indenter a {
+  background-image: url(../images/treetable/collapse-light.png);
+}

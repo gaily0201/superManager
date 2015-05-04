@@ -72,6 +72,19 @@
 			and z1.NAME LIKE CONCAT(CONCAT('%', #{pd.NAME}),'%') 
 		</if>
 		order by z1.ORDY_BY
+	</select> 
+	
+	<select id="dictlistAll" parameterType="page" resultType="pd">
+		select  z1.INDEX_ID,
+				z1.NAME,
+				z1.PATH,
+				z1.ORDY_BY,
+				z1.PARENT_ID,
+				z1.JB,
+				z1.P_PATH,
+				z2.NAME PNAME
+		from MGR_INDEX z1 left join MGR_INDEX z2 on z1.PARENT_ID=z2.INDEX_ID
+		order by z1.JB ASC,z2.JB ASC
 	</select>
 	
 	<!-- 查询总数 -->
